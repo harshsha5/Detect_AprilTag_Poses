@@ -34,6 +34,23 @@ public:
   void setTagLocations(float x_det, float y_det, float z_det)
   {
 	  //TODO: Update tag locations
+    // Optimize this using eigen for matrix multiplication and save the subscribed P matrix from the Camera info topic only once 
+    float D11 = 656.4037475585938;
+    float D12 = 0.0;
+    float D13 = 329.7264464396903;
+    float D14 = 0.0;
+    float D21 = 0.0;
+    float D22 = 655.7791748046875;
+    float D23 = 261.0592521875151;
+    float D24 = 0.0;
+    float D31 = 0.0;
+    float D32 = 0.0;
+    float D33 = 1.0;
+    float D34 = 0.0;
+    x_loc = (D11*x_det + D12*y_det + D13*z_det + D14)/(D31*x_det + D32*y_det + D33*z_det + D34);
+    y_loc = (D21*x_det + D22*y_det + D23*z_det + D24)/(D31*x_det + D32*y_det + D33*z_det + D34);
+    x_arr.push_back(x_loc);
+    y_arr.push_back(y_loc);
   }
 
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
@@ -50,6 +67,7 @@ public:
     }
 
 	//TODO: Draw circles at tag locations on image. 
+  cv::circle(cv_ptr->image, cv::Point(x_loc, y_loc), 5, CV_RGB(255,0,0));
 
     // Update GUI Window
     cv::imshow(OPENCV_WINDOW, cv_ptr->image);
@@ -57,6 +75,7 @@ public:
 
     // TODO:Output modified video stream
     // Convert the modified frames into sensor_msgs::Image message and publish it using image_pub
+    image_pub_.publish(cv_ptr->toImageMsg());
   }
 
 private:

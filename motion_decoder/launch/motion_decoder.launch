@@ -7,5 +7,5 @@
   <include file="$(find motion_decoder)/launch/apriltags_ros.launch"/>
   <!-- include file="$(find motion_decoder)/launch/hector_trajectory_server.launch"/ -->
 
-  <node pkg="rosbag" type="play" name="player" args="--clock $(find motion_decoder)/bags/AprilTag_Moving.bag"/>
+  <node pkg="rosbag" type="play" name="player" args="--clock $(find motion_decoder)/bags/Camera_Moving.bag"/>
 </launch>
