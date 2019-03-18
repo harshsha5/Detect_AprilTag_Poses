@@ -21,7 +21,6 @@ void apriltag_detection_callback(const apriltags_ros::AprilTagDetectionArray msg
   transform.setRotation	(quat_tf);
 
   br.sendTransform(tf::StampedTransform(transform,ros::Time::now(),"camera", "april_tf"));
-  //TODO: Parse message and publish transforms as apriltag_tf and camera
 }
 
 int main(int argc, char** argv)
@@ -30,7 +29,7 @@ int main(int argc, char** argv)
   
   ros::NodeHandle n;
   //TODO: Add a subscriber to get the AprilTag detections The callback function skelton is given.
-  ros::Subscriber sub = n.subscribe("tag_detections_pose", 1000, apriltag_detection_callback);
+  ros::Subscriber sub = n.subscribe("tag_detections", 1000, apriltag_detection_callback);
 
   ImageConverter converter;
   ic = &converter;
