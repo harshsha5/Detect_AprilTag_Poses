@@ -16,9 +16,11 @@ void apriltag_detection_callback(const apriltags_ros::AprilTagDetectionArray msg
   static tf::TransformBroadcaster br;
   tf::Transform transform;
   transform.setOrigin( tf::Vector3(msg.detections[0].pose.pose.position.x, msg.detections[0].pose.pose.position.y, msg.detections[0].pose.pose.position.z));
-  tf::Quaternion q;
-  transform.setRotation	(msg.detections[0].pose.pose.orientation)
-  br.sendTransform(tf::StampedTransform(transform, "camera", "april_tf"));
+  tf::Quaternion quat_tf;
+  quaternionMsgToTF(msg.detections[0].pose.pose.orientation , quat_tf);
+  transform.setRotation	(quat_tf);
+
+  br.sendTransform(tf::StampedTransform(transform,ros::Time::now(),"camera", "april_tf"));
   //TODO: Parse message and publish transforms as apriltag_tf and camera
 }
 
