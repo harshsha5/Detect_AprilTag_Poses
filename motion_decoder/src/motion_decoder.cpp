@@ -33,6 +33,7 @@ int main(int argc, char** argv)
 
   ImageConverter converter;
   ic = &converter;
+  ic->setTagLocations()
   ros::Rate loop_rate(50);
   ROS_INFO("In main\n");
   while(ros::ok()) {
