@@ -14,9 +14,10 @@ void apriltag_detection_callback(const apriltags_ros::AprilTagDetectionArray msg
   ROS_INFO("In subscribe\n");
   //msg.id, msg.size, msg.pose
   static tf::TransformBroadcaster br;
+  ic->setTagLocations(msg.detections[0].pose.pose.position.x, msg.detections[0].pose.pose.position.y, msg.detections[0].pose.pose.position.z);
   tf::Transform transform;
   transform.setOrigin( tf::Vector3(msg.detections[0].pose.pose.position.x, msg.detections[0].pose.pose.position.y, msg.detections[0].pose.pose.position.z));
-  tf::Quaternion quat_tf;
+  tf::Quaternion quat_tf;  
   quaternionMsgToTF(msg.detections[0].pose.pose.orientation , quat_tf);
   transform.setRotation	(quat_tf);
 
@@ -33,7 +34,6 @@ int main(int argc, char** argv)
 
   ImageConverter converter;
   ic = &converter;
-  ic->setTagLocations()
   ros::Rate loop_rate(50);
   ROS_INFO("In main\n");
   while(ros::ok()) {
